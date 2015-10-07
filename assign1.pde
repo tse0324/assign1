@@ -1,7 +1,7 @@
 /* please implement your assign1 code in this file. */
 PImage Ibg1,Ibg2,Ienemy,Ifighter,Ihp,Itreasure;
 int bgx,hp,fx,fy,ex,ey,tx,ty;
-boolean fl,fr,fu,fd;
+boolean fl,fr,fu,fd,fk;
 
 void setup () {
   size(640,480) ;  // must use this size.
@@ -25,12 +25,18 @@ void setup () {
   fr=false;
   fu=false;
   fd=false;
+  fk=false;
   
   fill(255,0,0);
+  textSize(48);
 }
 
 void draw() {
   // your code
+  if(hp<=0){
+    text("GAME OVER",200,240);
+    return;
+  }
   //bg
   bgx++;
   if(bgx>=640){
@@ -50,6 +56,7 @@ void draw() {
   }
   if(fx-ex<=61&&fy-ey<=61&&ex-fx<=51&&ey-fy<=51){
     hp-=50;
+    if(hp<0)hp=0;
     ex=-61;
     ey=(int)random(0,420);
   }
@@ -58,6 +65,7 @@ void draw() {
   //treasure
   if(fx-tx<=41&&fy-ty<=41&&tx-fx<=51&&ty-fy<=51){
     hp+=50;
+    if(hp>200)hp=200;
     tx=(int)random(0,600);
     ty=(int)random(0,440);
   }
@@ -77,9 +85,13 @@ void draw() {
   //hp
   rect(15,11,hp,20);
   image(Ihp,10,10);
+  
+  //text
+  if(!fk)text("use arrow key to move.",50,240);
 }
 
 void keyPressed(){
+  fk=true;
   if(key==CODED){
     if(keyCode==UP){
       fu=true;
